@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Obras</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { doto: ['Doto', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-zinc-900 min-h-screen flex flex-col">
+
+  <header class="py-6 bg-zinc-950 text-white px-4 sm:px-8 flex flex-col sm:flex-row items-center sm:justify-between gap-3">
+    <h1 class="text-2xl sm:text-3xl font-bold text-slate-200 font-doto">Obras</h1>
+
+    <nav class="flex flex-wrap justify-center sm:justify-end items-center gap-3 text-sm sm:text-base font-doto">
+      <a href="index.html" class="hover:text-amber-400 px-2">Galeria</a>
+      <span class="text-slate-600">|</span>
+      <a href="Paisagens.html" class="hover:text-amber-400 px-2">Paisagens</a>
+      <span class="text-slate-600">|</span>
+      <a href="Retratos.html" class="hover:text-amber-400 px-2">Retratos</a>
+      <span class="text-slate-600">|</span>
+      <a href="Obras.html" class="hover:text-amber-400 px-2">Obras</a>
+    </nav>
+  </header>
+
+  <main class="mx-auto px-4 sm:px-6 my-8 max-w-screen-xl grow">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <a href="fotosinvi/corpos.jpeg" class="gallery-item"><img class="w-full h-64 md:h-72 lg:h-80 rounded-lg shadow-md object-cover hover:scale-105 transition-transform duration-300" src="fotosinvi/corpos.jpeg" alt="Corpos"></a>
+      <a href="fotosinvi/D471CF53-A6AF-4509-850B-5E8525999C54_1_201_a.jpeg" class="gallery-item"><img class="w-full h-64 md:h-72 lg:h-80 rounded-lg shadow-md object-cover hover:scale-105 transition-transform duration-300" src="fotosinvi/D471CF53-A6AF-4509-850B-5E8525999C54_1_201_a.jpeg" alt=""></a>
+      <a href="fotosinvi/pa.jpeg" class="gallery-item"><img class="w-full h-64 md:h-72 lg:h-80 rounded-lg shadow-md object-cover hover:scale-105 transition-transform duration-300" src="fotosinvi/pa.jpeg" alt="Pa"></a>
+      <a href="fotosinvi/panos.jpeg" class="gallery-item"><img class="w-full h-64 md:h-72 lg:h-80 rounded-lg shadow-md object-cover hover:scale-105 transition-transform duration-300" src="fotosinvi/panos.jpeg" alt="Panos"></a>
+      </div>
+  </main>
+
+  <footer class="py-6 bg-zinc-950 text-white px-4 sm:px-8 flex flex-col sm:flex-row items-center sm:justify-between gap-3 mt-auto">
+    <h1 class="text-lg sm:text-2xl font-bold text-slate-200 font-doto">Simão Costa</h1>
+
+    <div class="flex flex-wrap justify-center sm:justify-end items-center gap-3 text-sm sm:text-base font-doto">
+      <a href="https://www.instagram.com/s_costa_96/" class="hover:text-amber-400 px-2">Instagram</a>
+      <span class="text-slate-600">|</span>
+      <a href="mailto:simaopicosta@gmail.com" class="hover:text-amber-400 px-2">E-Mail</a>
+      <span class="text-slate-600">|</span>
+      <a href="https://wa.me/912497636" class="hover:text-amber-400 px-2">WhatsApp</a>
+    </div>
+  </footer>
+
+  <!-- lightbox -->
+  <div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+    <button id="lightbox-close" aria-label="Fechar" class="absolute top-6 right-6 text-white bg-black bg-opacity-50 hover:bg-opacity-75 rounded-full w-10 h-10 flex items-center justify-center z-60">✕</button>
+    <button id="lightbox-prev" aria-label="Anterior" class="absolute left-4 md:left-8 top-1/2 transform -translate-y-1/2 text-white bg-black bg-opacity-30 hover:bg-opacity-60 rounded-full w-12 h-12 flex items-center justify-center z-60">‹</button>
+    <img id="lightbox-img" class="max-w-[95%] max-h-[95%] rounded-lg shadow-lg" src="" alt="">
+    <button id="lightbox-next" aria-label="Próximo" class="absolute right-4 md:right-8 top-1/2 transform -translate-y-1/2 text-white bg-black bg-opacity-30 hover:bg-opacity-60 rounded-full w-12 h-12 flex items-center justify-center z-60">›</button>
+  </div>
+
+  <script>
+    const galleryLinks = Array.from(document.querySelectorAll('.gallery-item'));
+    const gallerySrcs = galleryLinks.map(a => a.getAttribute('href'));
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    let currentIndex = -1;
+
+    function showImage(index) {
+      if (index < 0 || index >= gallerySrcs.length) return;
+      currentIndex = index;
+      lightboxImg.src = gallerySrcs[currentIndex];
+      lightbox.classList.remove('hidden');
+    }
+    function closeLightbox() {
+      lightbox.classList.add('hidden');
+      lightboxImg.src = '';
+      currentIndex = -1;
+    }
+    function nextImage() {
+      if (currentIndex === -1) return;
+      showImage((currentIndex + 1) % gallerySrcs.length);
+    }
+    function prevImage() {
+      if (currentIndex === -1) return;
+      showImage((currentIndex - 1 + gallerySrcs.length) % gallerySrcs.length);
+    }
+
+    galleryLinks.forEach((a, i) => { a.addEventListener('click', e => { e.preventDefault(); showImage(i); }); });
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    document.getElementById('lightbox-next').addEventListener('click', e => { e.stopPropagation(); nextImage(); });
+    document.getElementById('lightbox-prev').addEventListener('click', e => { e.stopPropagation(); prevImage(); });
+
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => {
+      if (lightbox.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') nextImage();
+      if (e.key === 'ArrowLeft') prevImage();
+    });
+    lightboxImg.addEventListener('click', e => e.stopPropagation());
+  </script>
+</body>
+</html>
